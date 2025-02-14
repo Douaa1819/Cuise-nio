@@ -3,6 +3,7 @@ package com.youcode.cuisenio.common.config;
 import com.youcode.cuisenio.features.auth.util.JwtRequestFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -33,6 +34,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/v1/auth/register", "/v1/auth/login").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/v1/ingredients/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session

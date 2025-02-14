@@ -9,6 +9,7 @@ import com.youcode.cuisenio.features.auth.entity.User;
 import com.youcode.cuisenio.features.auth.exception.AuthenticationException;
 import com.youcode.cuisenio.features.auth.mapper.UserMapper;
 import com.youcode.cuisenio.features.auth.repository.UserRepository;
+import com.youcode.cuisenio.features.auth.service.AuthService;
 import com.youcode.cuisenio.features.auth.util.JwtUtil;
 import jakarta.transaction.Transactional;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,7 +24,7 @@ import java.time.LocalDateTime;
 
 @Service
 @Transactional
-public class AuthService {
+public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
@@ -31,12 +32,12 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final UserDetailsService userDetailsService;
 
-    public AuthService(UserRepository userRepository,
-                       UserMapper userMapper,
-                       PasswordEncoder passwordEncoder,
-                       JwtUtil jwtUtil,
-                       AuthenticationManager authenticationManager,
-                       UserDetailsService userDetailsService) {
+    public AuthServiceImpl(UserRepository userRepository,
+                           UserMapper userMapper,
+                           PasswordEncoder passwordEncoder,
+                           JwtUtil jwtUtil,
+                           AuthenticationManager authenticationManager,
+                           UserDetailsService userDetailsService) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.passwordEncoder = passwordEncoder;

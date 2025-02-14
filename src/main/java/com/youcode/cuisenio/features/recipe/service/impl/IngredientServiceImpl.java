@@ -10,6 +10,7 @@ import com.youcode.cuisenio.features.recipe.service.IngredientService;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -34,12 +35,14 @@ public class IngredientServiceImpl  implements IngredientService {
                 .orElseThrow(() -> new IngredientNotFoundException("Ingrédient non trouvé avec l'id: " + id));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public IngredientResponse create(IngredientRequest request) {
         Ingredient ingredient = ingredientMapper.toEntity(request);
         ingredient = ingredientRepository.save(ingredient);
         return ingredientMapper.toResponse(ingredient);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public IngredientResponse update(Long id, IngredientRequest request) {
         Ingredient ingredient = ingredientRepository.findById(id)
                 .orElseThrow(() -> new IngredientNotFoundException("Ingrédient non trouvé avec l'id: " + id));
@@ -49,6 +52,7 @@ public class IngredientServiceImpl  implements IngredientService {
         return ingredientMapper.toResponse(ingredient);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public void delete(Long id) {
         if (!ingredientRepository.existsById(id)) {
             throw new IngredientNotFoundException("Ingrédient non trouvé avec l'id: " + id);

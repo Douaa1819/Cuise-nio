@@ -32,14 +32,12 @@ public class IngredientController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<IngredientResponse> create(@Valid @RequestBody IngredientRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ingredientService.create(request));
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<IngredientResponse> update(
             @PathVariable Long id,
             @Valid @RequestBody IngredientRequest request) {
@@ -47,7 +45,6 @@ public class IngredientController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         ingredientService.delete(id);
         return ResponseEntity.noContent().build();

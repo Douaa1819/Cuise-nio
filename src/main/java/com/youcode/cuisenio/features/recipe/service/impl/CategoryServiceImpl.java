@@ -29,6 +29,7 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryRepository.findAll(pageable).map(categoryMapper::toResponse);
     }
 
+
     @Override
     public CategoryResponse findById(Long id) {
         return categoryRepository.findById(id).map(categoryMapper::toResponse).orElseThrow(()
@@ -55,10 +56,9 @@ public class CategoryServiceImpl implements CategoryService {
     @PreAuthorize("hasRole('ADMIN')")
     @Override
     public void delete(Long id) {
-        if(categoryRepository.existsById(id)) {
+        if(!categoryRepository.existsById(id)) {
            throw new CategoryNotFoundException("Category Not Found avec id"+id);
         }
         categoryRepository.deleteById(id);
-
     }
 }

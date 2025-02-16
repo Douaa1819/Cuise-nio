@@ -44,7 +44,7 @@ public class Recipe {
     private List<Rating> ratings = new ArrayList<>();
 
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
-private  List<RecipeStep> steps = new ArrayList<>();
+    private  List<RecipeStep> steps = new ArrayList<>();
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
     private List<RecipeIngredient> recipeIngredients = new ArrayList<>();
     @ManyToMany

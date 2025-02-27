@@ -15,10 +15,8 @@ import java.util.List;
 public interface RecipeCommentRepository extends JpaRepository<RecipeComment, Long> {
     List<RecipeComment> findByRecipeIdOrderByCreatedAtDesc(Long recipeId);
 
-    Page<RecipeComment> findByRecipeIdAndIsApprovedOrderByCreatedAtDesc(Long recipeId, boolean isApproved, Pageable pageable);
 
-    Page<RecipeComment> findByIsApproved(boolean isApproved, Pageable pageable);
-
+    List<RecipeComment> findByRecipeId(Long recipeId);
     @Modifying
     @Query("DELETE FROM RecipeComment rc WHERE rc.recipe.id = :recipeId")
     void deleteByRecipeId(@Param("recipeId") Long recipeId);

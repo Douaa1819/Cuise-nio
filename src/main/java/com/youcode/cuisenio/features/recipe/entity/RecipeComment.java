@@ -19,10 +19,8 @@ public class RecipeComment {
     @Column(nullable = false)
     private Date createdAt;
 
-    private Date updatedAt;
 
-    @Column(nullable = false)
-    private boolean isApproved = false;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "recipe_id", nullable = false)
@@ -32,12 +30,10 @@ public class RecipeComment {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    public RecipeComment(Long id, Date createdAt, String content, Date updatedAt, boolean isApproved, Recipe recipe, User user) {
+    public RecipeComment(Long id, Date createdAt, String content, Recipe recipe, User user) {
         this.id = id;
         this.createdAt = createdAt;
         this.content = content;
-        this.updatedAt = updatedAt;
-        this.isApproved = isApproved;
         this.recipe = recipe;
         this.user = user;
     }
@@ -67,21 +63,6 @@ public class RecipeComment {
         this.createdAt = createdAt;
     }
 
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public boolean isApproved() {
-        return isApproved;
-    }
-
-    public void setApproved(boolean approved) {
-        isApproved = approved;
-    }
 
     public Recipe getRecipe() {
         return recipe;

@@ -10,36 +10,43 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/recipes/{recipeId}/comments")
 public class RecipeCommentController {
 
-    private final RecipeCommentService commentService;
+    private final RecipeCommentService recipeCommentService;
 
-    public RecipeCommentController(RecipeCommentService commentService) {
-        this.commentService = commentService;
+    public RecipeCommentController(RecipeCommentService recipeCommentService) {
+        this.recipeCommentService = recipeCommentService;
     }
 
     @PostMapping
-    public ResponseEntity<RecipeCommentResponse> addComment(
-            @AuthenticationPrincipal UserDetails userDetails,
+    public ResponseEntity<RecipeCommentResponse> createComment(
             @PathVariable Long recipeId,
-            @Valid @RequestBody RecipeCommentRequest request) {
-        //Long userId = extractUserId(userDetails);
-        Long userId=1L;
-        RecipeCommentResponse response = commentService.addComment(userId, recipeId, request);
+            @Valid @RequestBody RecipeCommentRequest request,
+            @AuthenticationPrincipal UserDetails userDetails) {
+
+        String email = userDetails.getUsername();
+        RecipeCommentResponse response = recipeCommentService.createComment(recipeId, request, email);
+
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{commentId}")
-    public ResponseEntity<RecipeCommentResponse> updateComment(
-            @AuthenticationPrincipal UserDetails userDetails,
+    @GetMapping
+    public ResponseEntity<List<RecipeCommentResponse>> getCommentsByRecipeId(@PathVariable Long recipeId) {
+        List<RecipeCommentResponse> comments = recipeCommentService.getCommentsByRecipeId(recipeId);
+        return ResponseEntity.ok(comments);
+    }
+
+    @PatchMapping("/{commentId}/approve")
+    public ResponseEntity<RecipeCommentResponse> approveComment(
+            @PathVariable Long recipeId,
             @PathVariable Long commentId,
-            @Valid @RequestBody RecipeCommentRequest request) {
-        Long userId=1L;
+            @RequestParam boolean isApproved) {
 
-       // Long userId = extractUserId(userDetails);
-
-        return null;
+        RecipeCommentResponse response = recipeCommentService.approveComment(commentId, isApproved);
+        return ResponseEntity.ok(response);
     }
 }

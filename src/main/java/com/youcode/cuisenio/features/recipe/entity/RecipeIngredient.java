@@ -9,18 +9,42 @@ public class RecipeIngredient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Double quantity;
-    private String unit ;
 
-    @ManyToOne
-    @JoinColumn(name = "recipe_id")
+    @Column(nullable = false)
+    private Double quantity;
+
+    @Column(nullable = false)
+    private String unit;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "recipe_id", nullable = false)
     private Recipe recipe;
-    public RecipeIngredient() {}
-    public RecipeIngredient(Long id, Double quantity, String unit) {
-        this.id = id;
-        this.quantity = quantity;
-        this.unit = unit;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ingredient_id", nullable = false)
+    private Ingredient ingredient;
+
+    public Ingredient getIngredient() {
+        return ingredient;
     }
+
+    public void setIngredient(Ingredient ingredient) {
+        this.ingredient = ingredient;
+    }
+
+    public RecipeIngredient() {
+
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+
 
     public Double getQuantity() {
         return quantity;
@@ -38,11 +62,18 @@ public class RecipeIngredient {
         this.unit = unit;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public Recipe getRecipe() {
+        return recipe;
     }
 
-    public Long getId() {
-        return id;
+    public void setRecipe(Recipe recipe) {
+        this.recipe = recipe;
+    }
+
+    public RecipeIngredient(Long id,  Double quantity, String unit, Recipe recipe) {
+        this.id = id;
+        this.quantity = quantity;
+        this.unit = unit;
+        this.recipe = recipe;
     }
 }

@@ -13,8 +13,10 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
-    format-sql: true
-    initialization-mode: always
   sql:
     init:
       continue-on-error: true
+ # debug: true
+#logging:
+ # level:
+   # root: DEBUG

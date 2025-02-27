@@ -14,10 +14,10 @@ public class Ingredient {
 
     private String name;
 
-    @ManyToMany(mappedBy = "ingredients")
-    private List<Recipe> recipes = new ArrayList<>();
+    @OneToMany(mappedBy = "ingredient")
+    private List<RecipeIngredient> recipes = new ArrayList<>();
 
-    public Ingredient(Long id, List<Recipe> recipes, String name) {
+    public Ingredient(Long id, List<RecipeIngredient> recipes, String name) {
         this.id = id;
         this.recipes = recipes;
         this.name = name;
@@ -42,11 +42,11 @@ public class Ingredient {
         this.name = name;
     }
 
-    public List<Recipe> getRecipes() {
+    public List<RecipeIngredient> getRecipes() {
         return recipes;
     }
 
-    public void setRecipes(List<Recipe> recipes) {
+    public void setRecipes(List<RecipeIngredient> recipes) {
         this.recipes = recipes;
     }
 }

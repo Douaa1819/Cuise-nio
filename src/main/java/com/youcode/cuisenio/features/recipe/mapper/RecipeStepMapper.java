@@ -7,6 +7,8 @@ import com.youcode.cuisenio.features.recipe.dto.recipeStep.request.RecipeStepReq
 import com.youcode.cuisenio.features.recipe.dto.recipeStep.response.RecipeStepResponse;
 import com.youcode.cuisenio.features.recipe.entity.Ingredient;
 import com.youcode.cuisenio.features.recipe.entity.RecipeStep;
+import org.mapstruct.Mapper;
 
+@Mapper(componentModel = "spring")
 public interface RecipeStepMapper extends BaseMapper<RecipeStep, RecipeStepRequest, RecipeStepResponse> {}
 

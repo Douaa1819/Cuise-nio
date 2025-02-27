@@ -1,24 +1,36 @@
 package com.youcode.cuisenio.features.recipe.dto.recipe.request;
 
 import com.youcode.cuisenio.features.recipe.dto.recipeIngredient.request.RecipeIngredientRequest;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import com.youcode.cuisenio.features.recipe.dto.recipeStep.request.RecipeStepRequest;
+import com.youcode.cuisenio.features.recipe.entity.DifficultyLevel;
+import jakarta.validation.constraints.*;
 
 import java.util.List;
 
-public record RecipeRequest(
-        @NotBlank
-        @Size(min = 3, max = 100)
-        String title,
 
-        @NotBlank
-        String description,
+public record RecipeRequest (
+        @NotBlank(message = "Recipe title is required")
+         String title,
 
-        @NotNull
-        Integer cookingTime,
+        @NotBlank(message = "Recipe description is required")
+         String description,
 
-        @NotEmpty
-        List<RecipeIngredientRequest> ingredients
-) {}
+        @NotNull(message = "Difficulty level is required")
+         DifficultyLevel difficultyLevel,
+
+        @Min(value = 1, message = "Preparation time must be at least 1 minute")
+         Integer preparationTime,
+
+        @Min(value = 0, message = "Cooking time cannot be negative")
+         Integer cookingTime,
+
+        @Min(value = 1, message = "Number of servings must be at least 1")
+         Integer servings,
+
+         String imageUrl,
+
+         List<Long> categoryIds,
+         List<RecipeIngredientRequest> ingredients,
+
+         List<RecipeStepRequest> steps
+){}

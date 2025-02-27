@@ -1,9 +1,12 @@
 package com.youcode.cuisenio.features.recipe.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.youcode.cuisenio.features.auth.entity.User;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -12,61 +15,176 @@ public class Recipe {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @Column(nullable = false)
     private String title;
+
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String description;
-    private int cookingTime;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private DifficultyLevel difficultyLevel;
+
+    @Column(nullable = false)
+    private Integer preparationTime;
+
+    @Column(nullable = false)
+    private Integer cookingTime;
+
+    @Column(nullable = false)
+    private Integer servings;
+
+    private String imageUrl;
+
+    @Column(nullable = false)
+    private Date creationDate;
+
+    @Column(nullable = false)
+    private Boolean isApproved = false;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
+    @JsonBackReference("recipes")
     private User user;
 
-    @ManyToMany
-    @JoinTable(
-            name = "recipe_ingredient",
-            joinColumns = @JoinColumn(name = "recipe_id"),
-            inverseJoinColumns = @JoinColumn(name = "ingredient_id")
-    )
-    private List<Ingredient> ingredients = new ArrayList<>();
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RecipeIngredient> ingredients;
 
-    @ManyToMany
-    @JoinTable(
-            name = "recipe_categories",
-            joinColumns = @JoinColumn(name = "recipe_id"),
-            inverseJoinColumns = @JoinColumn(name = "category_id")
-    )
-    private List<Category> categories = new ArrayList<>();
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RecipeStep> steps;
 
-    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
-    private List<Comment> comments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
-    private List<Rating> ratings = new ArrayList<>();
+  @ManyToOne
+  @JoinColumn(name = "categorie_id", nullable = false)
+  private Category categorie;
 
-    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
-    private  List<RecipeStep> steps = new ArrayList<>();
-    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
-    private List<RecipeIngredient> recipeIngredients = new ArrayList<>();
-    @ManyToMany
-    @JoinTable(
-            name = "recipe_images",
-            joinColumns = @JoinColumn(name = "recipe_id"),
-            inverseJoinColumns = @JoinColumn(name = "image_id")
-    )
-    private List<Image> images;
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RecipeRating> ratings;
 
-    public Recipe() {}
-    public Recipe(Long id, String title, String description, int cookingTime, User user, List<Ingredient> ingredients, List<Category> categories, List<Comment> comments, List<Rating> ratings, List<Image> images) {
-        this.id = id;
-        this.title = title;
-        this.description = description;
-        this.cookingTime = cookingTime;
-        this.user = user;
-        this.ingredients = ingredients;
-        this.categories = categories;
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RecipeComment> comments;
+
+
+
+    public Recipe() {
+
+    }
+
+    public DifficultyLevel getDifficultyLevel() {
+        return difficultyLevel;
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        this.creationDate = new Date();
+    }
+
+    public void setDifficultyLevel(DifficultyLevel difficultyLevel) {
+        this.difficultyLevel = difficultyLevel;
+    }
+
+    public List<RecipeComment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<RecipeComment> comments) {
         this.comments = comments;
+    }
+
+    public List<RecipeRating> getRatings() {
+        return ratings;
+    }
+
+    public Category getCategorie() {
+        return categorie;
+    }
+
+    public void setCategorie(Category categorie) {
+        this.categorie = categorie;
+    }
+
+    public void setRatings(List<RecipeRating> ratings) {
         this.ratings = ratings;
-        this.images = images;
+    }
+
+    public Category getCategories() {
+        return categorie;
+    }
+
+    public void setCategories(Category categorie) {
+        this.categorie = categorie;
+    }
+
+    public List<RecipeStep> getSteps() {
+        return steps;
+    }
+
+    public void setSteps(List<RecipeStep> steps) {
+        this.steps = steps;
+    }
+
+    public List<RecipeIngredient> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(List<RecipeIngredient> ingredients) {
+        this.ingredients = ingredients;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Boolean getApproved() {
+        return isApproved;
+    }
+
+    public void setApproved(Boolean approved) {
+        isApproved = approved;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public Integer getServings() {
+        return servings;
+    }
+
+    public void setServings(Integer servings) {
+        this.servings = servings;
+    }
+
+    public Integer getCookingTime() {
+        return cookingTime;
+    }
+
+    public void setCookingTime(Integer cookingTime) {
+        this.cookingTime = cookingTime;
+    }
+
+    public Integer getPreparationTime() {
+        return preparationTime;
+    }
+
+    public void setPreparationTime(Integer preparationTime) {
+        this.preparationTime = preparationTime;
     }
 
     public Long getId() {
@@ -93,59 +211,22 @@ public class Recipe {
         this.description = description;
     }
 
-    public int getCookingTime() {
-        return cookingTime;
-    }
-
-    public void setCookingTime(int cookingTime) {
-        this.cookingTime = cookingTime;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public List<Category> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(List<Category> categories) {
-        this.categories = categories;
-    }
-
-    public List<Ingredient> getIngredients() {
-        return ingredients;
-    }
-
-    public void setIngredients(List<Ingredient> ingredients) {
-        this.ingredients = ingredients;
-    }
-
-    public List<Comment> getComments() {
-        return comments;
-    }
-
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
-    }
-
-    public List<Rating> getRatings() {
-        return ratings;
-    }
-
-    public void setRatings(List<Rating> ratings) {
+    public Recipe(List<RecipeStep> steps,Category category, List<RecipeRating> ratings, List<RecipeComment> comments, List<RecipeIngredient> ingredients, User user, Boolean isApproved, Date creationDate, String imageUrl, Integer servings, Integer cookingTime, DifficultyLevel difficultyLevel, Integer preparationTime, String description, String title, Long id) {
+        this.steps = steps;
         this.ratings = ratings;
-    }
-
-    public List<Image> getImages() {
-        return images;
-    }
-
-    public void setImages(List<Image> images) {
-        this.images = images;
+        this.comments = comments;
+        this.ingredients = ingredients;
+        this.categorie=category;
+        this.user = user;
+        this.isApproved = isApproved;
+        this.creationDate = creationDate;
+        this.imageUrl = imageUrl;
+        this.servings = servings;
+        this.cookingTime = cookingTime;
+        this.difficultyLevel = difficultyLevel;
+        this.preparationTime = preparationTime;
+        this.description = description;
+        this.title = title;
+        this.id = id;
     }
 }

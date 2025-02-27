@@ -10,21 +10,20 @@ public class RecipeStep {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private Integer stepNumber;
+
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String description;
 
-    @ManyToOne
-    @JoinColumn(name = "recipe_id")
+    private String imageUrl;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "recipe_id", nullable = false)
     private Recipe recipe;
 
-    public RecipeStep(){
+    public RecipeStep() {
 
-    }
-    public RecipeStep(Long id, Integer stepNumber, String description, Recipe recipe) {
-        this.id = id;
-        this.stepNumber = stepNumber;
-        this.description = description;
-        this.recipe = recipe;
     }
 
     public Long getId() {
@@ -51,11 +50,27 @@ public class RecipeStep {
         this.description = description;
     }
 
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
     public Recipe getRecipe() {
         return recipe;
     }
 
     public void setRecipe(Recipe recipe) {
         this.recipe = recipe;
+    }
+
+    public RecipeStep(Recipe recipe, String imageUrl, String description, Long id, Integer stepNumber) {
+        this.recipe = recipe;
+        this.imageUrl = imageUrl;
+        this.description = description;
+        this.id = id;
+        this.stepNumber = stepNumber;
     }
 }

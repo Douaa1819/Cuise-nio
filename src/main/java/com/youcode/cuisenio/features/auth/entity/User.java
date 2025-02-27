@@ -1,8 +1,9 @@
 package com.youcode.cuisenio.features.auth.entity;
-import com.youcode.cuisenio.features.mealplan.entity.MealPlan;
-import com.youcode.cuisenio.features.recipe.entity.Comment;
-import com.youcode.cuisenio.features.recipe.entity.Rating;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.youcode.cuisenio.features.mealplan.entity.MealPlanner;
 import com.youcode.cuisenio.features.recipe.entity.Recipe;
+import com.youcode.cuisenio.features.recipe.entity.RecipeComment;
+import com.youcode.cuisenio.features.recipe.entity.RecipeRating;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -31,28 +32,29 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private Role role;
-
-    private boolean isActive;
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Recipe> recipes = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<MealPlan> mealPlans = new ArrayList<>();
+    @OneToMany(mappedBy = "user")
+    private List<RecipeRating> ratings = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Comment> comments = new ArrayList<>();
+    @OneToMany(mappedBy = "user")
+    private List<RecipeComment> comments = new ArrayList<>();
 
+        private boolean isBlocked;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Rating> ratings = new ArrayList<>();
+    private List<MealPlanner> mealPlans = new ArrayList<>();
+
 
     public User() {}
 
-    public boolean isActive() {
-        return isActive;
+    public boolean isBlocked() {
+        return isBlocked;
     }
 
-    public void setActive(boolean active) {
-        isActive = true;
+    public void setActive(boolean isBlocked) {
+        isBlocked = true;
     }
 
     public LocalDateTime getRegistrationDate() {
@@ -71,10 +73,10 @@ public class User {
         this.lastName = lastName;
     }
 
-    public User(Long id, boolean isActive, List<MealPlan> mealPlans, List<Rating> ratings, List<Comment> comments, List<Recipe> recipes, Role role, String email, String password, LocalDateTime registrationDate, String lastName, String username) {
+    public User(Long id, boolean isActive, List<MealPlanner> mealPlanners, List<RecipeRating> ratings, List<RecipeComment> comments, List<Recipe> recipes, Role role, String email, String password, LocalDateTime registrationDate, String lastName, String username) {
         this.id = id;
-        this.isActive = true;
-        this.mealPlans = mealPlans;
+        this.isBlocked = true;
+        this.mealPlans = mealPlanners;
         this.ratings = ratings;
         this.comments = comments;
         this.recipes = recipes;
@@ -136,27 +138,28 @@ public class User {
         this.recipes = recipes;
     }
 
-    public List<MealPlan> getMealPlans() {
+    public List<MealPlanner> getMealPlans() {
         return mealPlans;
     }
 
-    public void setMealPlans(List<MealPlan> mealPlans) {
-        this.mealPlans = mealPlans;
+    public void setMealPlans(List<MealPlanner> mealPlanners) {
+        this.mealPlans = mealPlanners;
     }
 
-    public List<Comment> getComments() {
+    public List<RecipeComment> getComments() {
         return comments;
     }
 
-    public void setComments(List<Comment> comments) {
+    public void setComments(List<RecipeComment> comments) {
         this.comments = comments;
     }
 
-    public List<Rating> getRatings() {
+
+    public List<RecipeRating> getRatings() {
         return ratings;
     }
 
-    public void setRatings(List<Rating> ratings) {
+    public void setRatings(List<RecipeRating> ratings) {
         this.ratings = ratings;
     }
 }

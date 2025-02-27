@@ -3,16 +3,12 @@ package com.youcode.cuisenio.features.recipe.service;
 import com.youcode.cuisenio.common.service.CrudService;
 import com.youcode.cuisenio.features.recipe.dto.recipe.request.RecipeRequest;
 import com.youcode.cuisenio.features.recipe.dto.recipe.response.RecipeResponse;
-import com.youcode.cuisenio.features.recipe.entity.Recipe;
-import com.youcode.cuisenio.features.recipe.repository.RecipeRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.CrudRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
+@Transactional
 public interface RecipeService extends CrudService<Long, RecipeRequest, RecipeResponse> {
-
+    public RecipeResponse createRecipe(String email,RecipeRequest request);
 }
 

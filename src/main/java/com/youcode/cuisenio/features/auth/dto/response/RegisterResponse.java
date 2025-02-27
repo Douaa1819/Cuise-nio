@@ -11,5 +11,5 @@ public record RegisterResponse(
         String email,
         Role role,
         LocalDateTime registrationDate,
-        boolean isActive
+        boolean isBlocked
 ) {}

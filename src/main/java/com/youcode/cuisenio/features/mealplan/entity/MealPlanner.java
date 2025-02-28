@@ -3,6 +3,7 @@ package com.youcode.cuisenio.features.mealplan.entity;
 import com.youcode.cuisenio.features.auth.entity.User;
 import com.youcode.cuisenio.features.recipe.entity.Recipe;
 import jakarta.persistence.*;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,11 +26,11 @@ public class MealPlanner {
     private LocalDate planningDate;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(name = "day_of_week", nullable = false)
     private DayOfWeek dayOfWeek;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(name = "meal_type", nullable = false)
     private MealType mealType;
 
     @Column
@@ -115,7 +116,7 @@ public class MealPlanner {
         return dayOfWeek;
     }
 
-    public void setDayOfWeek(DayOfWeek dayOfWeek) {
+    public void setDayOfWeek (DayOfWeek dayOfWeek) {
         this.dayOfWeek = dayOfWeek;
     }
 

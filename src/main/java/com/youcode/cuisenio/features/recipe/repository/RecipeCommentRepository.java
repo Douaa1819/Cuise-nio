@@ -13,8 +13,6 @@ import java.util.List;
 
 @Repository
 public interface RecipeCommentRepository extends JpaRepository<RecipeComment, Long> {
-    List<RecipeComment> findByRecipeIdOrderByCreatedAtDesc(Long recipeId);
-
 
     List<RecipeComment> findByRecipeId(Long recipeId);
     @Modifying

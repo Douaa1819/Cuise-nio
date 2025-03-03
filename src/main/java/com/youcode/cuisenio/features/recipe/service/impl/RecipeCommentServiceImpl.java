@@ -10,8 +10,11 @@ import com.youcode.cuisenio.features.recipe.exception.RecipeNotFoundException;
 import com.youcode.cuisenio.features.recipe.mapper.RecipeCommentMapper;
 import com.youcode.cuisenio.features.recipe.repository.RecipeCommentRepository;
 import com.youcode.cuisenio.features.recipe.repository.RecipeRepository;
+import com.youcode.cuisenio.features.recipe.service.RecipeCommentService;
 import jakarta.transaction.Transactional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -20,24 +23,24 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
-public class RecipeCommentService {
+public class RecipeCommentServiceImpl implements RecipeCommentService {
 
     private final RecipeCommentRepository recipeCommentRepository;
     private final RecipeRepository recipeRepository;
     private final UserService userService;
     private final RecipeCommentMapper recipeCommentMapper;
 
-    public RecipeCommentService(RecipeCommentRepository recipeCommentRepository,
-                                RecipeRepository recipeRepository,
-                                UserService userService,
-                                RecipeCommentMapper recipeCommentMapper) {
+    public RecipeCommentServiceImpl(RecipeCommentRepository recipeCommentRepository,
+                                    RecipeRepository recipeRepository,
+                                    UserService userService,
+                                    RecipeCommentMapper recipeCommentMapper) {
         this.recipeCommentRepository = recipeCommentRepository;
         this.recipeRepository = recipeRepository;
         this.userService = userService;
         this.recipeCommentMapper = recipeCommentMapper;
     }
 
-    public RecipeCommentResponse createComment(Long recipeId, RecipeCommentRequest request, String email) {
+    public RecipeCommentResponse create(Long recipeId, RecipeCommentRequest request, String email) {
         Recipe recipe = recipeRepository.findById(recipeId)
                 .orElseThrow(() -> new RecipeNotFoundException("Recipe not found with id: " + recipeId));
 
@@ -69,5 +72,31 @@ public class RecipeCommentService {
         comment = recipeCommentRepository.save(comment);
 
         return recipeCommentMapper.toResponse(comment);
+    }
+
+
+    @Override
+    public Page<RecipeCommentResponse> findAll(Pageable pageable) {
+        return null;
+    }
+
+    @Override
+    public RecipeCommentResponse findById(Long aLong) {
+        return null;
+    }
+
+    @Override
+    public RecipeCommentResponse create(RecipeCommentRequest recipeCommentRequest) {
+        return null;
+    }
+
+    @Override
+    public RecipeCommentResponse update(Long aLong, RecipeCommentRequest recipeCommentRequest) {
+        return null;
+    }
+
+    @Override
+    public void delete(Long aLong) {
+
     }
 }

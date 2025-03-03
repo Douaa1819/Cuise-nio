@@ -3,7 +3,7 @@ package com.youcode.cuisenio.features.recipe.controller;
 
 import com.youcode.cuisenio.features.recipe.dto.recipeRating.request.RecipeRatingRequest;
 import com.youcode.cuisenio.features.recipe.dto.recipeRating.response.RecipeRatingResponse;
-import com.youcode.cuisenio.features.recipe.service.impl.RecipeRatingService;
+import com.youcode.cuisenio.features.recipe.service.impl.RecipeRatingServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,9 +17,9 @@ import java.util.List;
 @RequestMapping("/api/recipes/{recipeId}/ratings")
 public class RecipeRatingController {
 
-    private final RecipeRatingService recipeRatingService;
+    private final RecipeRatingServiceImpl recipeRatingService;
 
-    public RecipeRatingController(RecipeRatingService recipeRatingService) {
+    public RecipeRatingController(RecipeRatingServiceImpl recipeRatingService) {
         this.recipeRatingService = recipeRatingService;
     }
 

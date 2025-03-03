@@ -22,6 +22,5 @@ public interface MealPlannerMapper extends BaseMapper<MealPlanner, MealPlannerRe
     @Mapping(source = "dayOfWeek", target = "dayOfWeek", qualifiedByName = "mapDayOfWeekReverse")
     @Mapping(source = "mealType", target = "mealType", qualifiedByName = "mapMealTypeReverse")
     @Mapping(source = "recipe.id", target = "recipeId")
-    @Mapping(source = "user.id", target = "userId")
     MealPlannerResponse toResponse(MealPlanner entity);
 }

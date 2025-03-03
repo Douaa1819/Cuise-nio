@@ -20,17 +20,17 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
-public class RecipeRatingService {
+public class RecipeRatingServiceImpl {
 
     private final RecipeRatingRepository recipeRatingRepository;
     private final RecipeRepository recipeRepository;
     private final UserService userService;
     private final RecipeRatingMapper recipeRatingMapper;
 
-    public RecipeRatingService(RecipeRatingRepository recipeRatingRepository,
-                               RecipeRepository recipeRepository,
-                               UserService userService,
-                               RecipeRatingMapper recipeRatingMapper) {
+    public RecipeRatingServiceImpl(RecipeRatingRepository recipeRatingRepository,
+                                   RecipeRepository recipeRepository,
+                                   UserService userService,
+                                   RecipeRatingMapper recipeRatingMapper) {
         this.recipeRatingRepository = recipeRatingRepository;
         this.recipeRepository = recipeRepository;
         this.userService = userService;

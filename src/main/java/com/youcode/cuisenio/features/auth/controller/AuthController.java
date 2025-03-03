@@ -1,9 +1,9 @@
 package com.youcode.cuisenio.features.auth.controller;
 
-import com.youcode.cuisenio.features.auth.dto.request.LoginRequest;
-import com.youcode.cuisenio.features.auth.dto.request.RegisterRequest;
-import com.youcode.cuisenio.features.auth.dto.response.LoginResponse;
-import com.youcode.cuisenio.features.auth.dto.response.RegisterResponse;
+import com.youcode.cuisenio.features.auth.dto.auth.request.LoginRequest;
+import com.youcode.cuisenio.features.auth.dto.auth.request.RegisterRequest;
+import com.youcode.cuisenio.features.auth.dto.auth.response.LoginResponse;
+import com.youcode.cuisenio.features.auth.dto.auth.response.RegisterResponse;
 import com.youcode.cuisenio.features.auth.service.impl.AuthServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;

@@ -10,5 +10,8 @@ import org.springframework.stereotype.Service;
 @Transactional
 public interface RecipeService extends CrudService<Long, RecipeRequest, RecipeResponse> {
     public RecipeResponse createRecipe(String email,RecipeRequest request);
+
+    interface RecipeRating  {
+    }
 }
 

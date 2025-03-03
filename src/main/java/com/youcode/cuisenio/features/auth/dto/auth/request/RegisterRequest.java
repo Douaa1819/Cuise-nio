@@ -1,4 +1,4 @@
-package com.youcode.cuisenio.features.auth.dto.request;
+package com.youcode.cuisenio.features.auth.dto.auth.request;
 
 import com.youcode.cuisenio.features.auth.entity.Role;
 import jakarta.validation.constraints.Email;

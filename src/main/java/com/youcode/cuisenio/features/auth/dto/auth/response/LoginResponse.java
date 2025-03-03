@@ -1,4 +1,4 @@
-package com.youcode.cuisenio.features.auth.dto.response;
+package com.youcode.cuisenio.features.auth.dto.auth.response;
 
 
     public record LoginResponse(

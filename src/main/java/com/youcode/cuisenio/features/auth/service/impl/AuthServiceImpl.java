@@ -1,9 +1,9 @@
 package com.youcode.cuisenio.features.auth.service.impl;
 
-import com.youcode.cuisenio.features.auth.dto.request.LoginRequest;
-import com.youcode.cuisenio.features.auth.dto.request.RegisterRequest;
-import com.youcode.cuisenio.features.auth.dto.response.LoginResponse;
-import com.youcode.cuisenio.features.auth.dto.response.RegisterResponse;
+import com.youcode.cuisenio.features.auth.dto.auth.request.LoginRequest;
+import com.youcode.cuisenio.features.auth.dto.auth.request.RegisterRequest;
+import com.youcode.cuisenio.features.auth.dto.auth.response.LoginResponse;
+import com.youcode.cuisenio.features.auth.dto.auth.response.RegisterResponse;
 import com.youcode.cuisenio.features.auth.entity.Role;
 import com.youcode.cuisenio.features.auth.entity.User;
 import com.youcode.cuisenio.features.auth.exception.AuthenticationException;
@@ -50,18 +50,11 @@ public class AuthServiceImpl implements AuthService {
         if (userRepository.existsByEmail(request.email())) {
             throw new AuthenticationException("Email déjà utilisé");
         }
-        if (userRepository.existsByUsername(request.username())) {
-            throw new AuthenticationException("Nom d'utilisateur déjà utilisé");
-        }
-
         User user = userMapper.registerRequestToUser(request);
-        if (user.getRole() == null) {
-            user.setRole(Role.getDefault());
-        }
-
+        user.setRole(user.getRole() != null ? user.getRole() : Role.getDefault());
         user.setPassword(passwordEncoder.encode(request.password()));
         user.setRegistrationDate(LocalDateTime.now());
-        user.setActive(true);
+        user.setBlocked(false);
         user = userRepository.save(user);
         return userMapper.userToRegisterResponse(user);
     }

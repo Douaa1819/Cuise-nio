@@ -2,7 +2,7 @@ package com.youcode.cuisenio.features.recipe.controller;
 
 import com.youcode.cuisenio.features.recipe.dto.comment.request.RecipeCommentRequest;
 import com.youcode.cuisenio.features.recipe.dto.comment.response.RecipeCommentResponse;
-import com.youcode.cuisenio.features.recipe.service.impl.RecipeCommentService;
+import com.youcode.cuisenio.features.recipe.service.impl.RecipeCommentServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,9 +16,9 @@ import java.util.List;
 @RequestMapping("/api/recipes/{recipeId}/comments")
 public class RecipeCommentController {
 
-    private final RecipeCommentService recipeCommentService;
+    private final RecipeCommentServiceImpl recipeCommentService;
 
-    public RecipeCommentController(RecipeCommentService recipeCommentService) {
+    public RecipeCommentController(RecipeCommentServiceImpl recipeCommentService) {
         this.recipeCommentService = recipeCommentService;
     }
 
@@ -29,7 +29,7 @@ public class RecipeCommentController {
             @AuthenticationPrincipal UserDetails userDetails) {
 
         String email = userDetails.getUsername();
-        RecipeCommentResponse response = recipeCommentService.createComment(recipeId, request, email);
+        RecipeCommentResponse response = recipeCommentService.create(recipeId, request, email);
 
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }

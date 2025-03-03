@@ -48,7 +48,7 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<RecipeComment> comments = new ArrayList<>();
 
-    private Boolean blocked;
+    private boolean blocked;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<MealPlanner> mealPlans = new ArrayList<>();
@@ -60,4 +60,5 @@ public class User {
     public void prePersist() {
         this.registrationDate = LocalDateTime.now();
     }
+
 }

@@ -1,5 +1,6 @@
 package com.youcode.cuisenio.features.auth.service.impl;
 
+import com.youcode.cuisenio.common.config.CustomUserDetails;
 import com.youcode.cuisenio.features.auth.dto.profile.request.UpdatePasswordRequest;
 import com.youcode.cuisenio.features.auth.dto.profile.request.UpdateProfileRequest;
 import com.youcode.cuisenio.features.auth.dto.profile.response.ProfileResponse;
@@ -26,12 +27,16 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     public ProfileResponse getProfile(Authentication authentication) {
-        User user = (User) authentication.getPrincipal();
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        User user = userDetails.getUser();
+        System.out.println("Dans getProfile, utilisateur récupéré : " + user);
         return userMapper.userToProfileResponse(user);
     }
 
+
     public ProfileResponse updateProfile(Authentication authentication, UpdateProfileRequest request) {
-        User user = (User) authentication.getPrincipal();
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        User user = userDetails.getUser();
         user.setUsername(request.username());
         user.setLastName(request.lastName());
         userRepository.save(user);
@@ -39,7 +44,8 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     public void updatePassword(Authentication authentication, UpdatePasswordRequest request) {
-        User user = (User) authentication.getPrincipal();
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        User user = userDetails.getUser();
         if (!passwordEncoder.matches(request.oldPassword(), user.getPassword())) {
             throw new RuntimeException("Ancien mot de passe incorrect");
         }
@@ -48,7 +54,8 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     public void deleteAccount(Authentication authentication) {
-        User user = (User) authentication.getPrincipal();
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        User user = userDetails.getUser();
         userRepository.delete(user);
     }
 }

@@ -1,6 +1,7 @@
 package com.youcode.cuisenio.features.auth.service;
 
 
+import com.youcode.cuisenio.common.config.CustomUserDetails;
 import com.youcode.cuisenio.features.auth.entity.User;
 import com.youcode.cuisenio.features.auth.repository.UserRepository;
 import jakarta.transaction.Transactional;
@@ -19,15 +20,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetailsServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
+
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
-
-        return new org.springframework.security.core.userdetails.User(
-                user.getEmail(),
-                user.getPassword(),
-                user.getAuthorities()
-        );
+        System.out.println("Utilisateur chargé depuis la BDD : " + user);
+        return new CustomUserDetails(user);
     }
+
 }

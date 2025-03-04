@@ -67,7 +67,12 @@ public class AuthServiceImpl implements AuthService {
         } catch (BadCredentialsException e) {
             throw new AuthenticationException("Email ou mot de passe incorrect");
         }
+        User user = userRepository.findByEmail(request.email())
+                .orElseThrow(() -> new AuthenticationException("Utilisateur non trouvé"));
 
+        if (user.getBlocked()) {
+            throw new AuthenticationException("Compte bloqué");
+        }
         UserDetails userDetails = userDetailsService.loadUserByUsername(request.email());
         String token = jwtUtil.generateToken(userDetails);
         return new LoginResponse(token);

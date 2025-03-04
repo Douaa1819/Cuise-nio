@@ -54,5 +54,6 @@ public class GlobalExceptionHandler {
         LOGGER.error("Unexpected error: {}", ex.getMessage(), ex);
         return ApiError.of("INTERNAL_SERVER_ERROR", "Une erreur interne est survenue");
     }
+
 }
 

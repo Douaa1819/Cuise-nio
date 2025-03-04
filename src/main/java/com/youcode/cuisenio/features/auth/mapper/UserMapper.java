@@ -15,18 +15,18 @@ public interface UserMapper {
 
     User registerRequestToUser(RegisterRequest registerRequest);
 
-    @Mapping(target = "id", source = "id")
-    @Mapping(target = "username", source = "username")
-    @Mapping(target = "lastName", source = "lastName")
-    @Mapping(target = "email", source = "email")
-    @Mapping(target = "registrationDate", source = "registrationDate")
+//    @Mapping(target = "id", source = "id")
+//    @Mapping(target = "username", source = "username")
+//    @Mapping(target = "lastName", source = "lastName")
+//    @Mapping(target = "email", source = "email")
+//    @Mapping(target = "registrationDate", source = "registrationDate")
     ProfileResponse userToProfileResponse(User user);
 
-    @Mapping(target = "id", source = "id")
-    @Mapping(target = "username", source = "username")
-    @Mapping(target = "lastName", source = "lastName")
-    @Mapping(target = "email", source = "email")
-    @Mapping(target = "registrationDate", source = "registrationDate")
+//    @Mapping(target = "id", source = "id")
+//    @Mapping(target = "username", source = "username")
+//    @Mapping(target = "lastName", source = "lastName")
+//    @Mapping(target = "email", source = "email")
+//    @Mapping(target = "registrationDate", source = "registrationDate")
     UserDto userToUserDto(User user);
 
 

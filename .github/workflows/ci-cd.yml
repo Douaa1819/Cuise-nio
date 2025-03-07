@@ -3,10 +3,11 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - master
+      - master  # Utilisez la branche "master"
   pull_request:
     branches:
-      - master
+      - master  # Utilisez la branche "master"
+
 jobs:
   build-and-test:
     runs-on: ubuntu-latest

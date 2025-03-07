@@ -127,16 +127,16 @@ class CategoryServiceImplTest {
         verify(categoryRepository, times(1)).findById(1L);
     }
 
-//    @Test
-//    void shouldDeleteCategory() {
-//        when(categoryRepository.existsById(1L)).thenReturn(true);
-//        doNothing().when(categoryRepository).deleteById(1L);
-//
-//        assertDoesNotThrow(() -> categoryService.delete(1L));
-//
-//        verify(categoryRepository, times(1)).existsById(1L);
-//        verify(categoryRepository, times(1)).deleteById(1L);
-//    }
+    @Test
+    void shouldDeleteCategory() {
+        when(categoryRepository.existsById(1L)).thenReturn(true);
+        doNothing().when(categoryRepository).deleteById(1L);
+
+        assertDoesNotThrow(() -> categoryService.delete(1L));
+
+        verify(categoryRepository, times(1)).existsById(1L);
+        verify(categoryRepository, times(1)).deleteById(1L);
+    }
 
     @Test
     void shouldThrowExceptionWhenDeletingNonExistingCategory() {

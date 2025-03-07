@@ -3,6 +3,7 @@ package com.youcode.cuisenio.features.recipe.service.impl;
 import com.youcode.cuisenio.features.auth.entity.User;
 import com.youcode.cuisenio.features.auth.repository.UserRepository;
 import com.youcode.cuisenio.features.auth.service.UserService;
+import com.youcode.cuisenio.features.recipe.dto.recipe.request.RecipeDetailsRequest;
 import com.youcode.cuisenio.features.recipe.dto.recipe.request.RecipeRequest;
 import com.youcode.cuisenio.features.recipe.dto.recipe.response.RecipeResponse;
 import com.youcode.cuisenio.features.recipe.entity.*;
@@ -19,6 +20,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,22 +34,24 @@ public class RecipeServiceImpl implements RecipeService {
     private final IngredientRepository ingredientRepository;
     private final UserRepository userRepository;
     private final RecipeMapper recipeMapper;
+    private final FileStorageService fileStorageService;
 
     public RecipeServiceImpl(RecipeRepository recipeRepository,
                              IngredientRepository ingredientRepository,
-                             CategoryRepository categoryRepository,
                              RecipeMapper recipeMapper,
                              UserRepository userRepository,
-                             UserService userService) {
+                             FileStorageService fileStorageService
+                             ) {
         this.recipeRepository = recipeRepository;
         this.ingredientRepository = ingredientRepository;
         this.userRepository = userRepository;
         this.recipeMapper = recipeMapper;
+        this.fileStorageService=fileStorageService;
     }
 
 
     @Override
-    public RecipeResponse createRecipe(String email, RecipeRequest request) {
+    public RecipeResponse createRecipe(String email, RecipeRequest request, RecipeDetailsRequest detailsRequest) {
         Recipe recipe = recipeMapper.toEntity(request);
 
         User user = userRepository.findByEmail(email)
@@ -56,7 +60,7 @@ public class RecipeServiceImpl implements RecipeService {
         recipe.setUser(user);
 
         Recipe finalRecipe = recipe;
-        List<RecipeIngredient> recipeIngredients = request.ingredients().stream()
+        List<RecipeIngredient> recipeIngredients = detailsRequest.ingredients().stream()
                 .map(ingredientRequest -> {
                     Ingredient ingredient = ingredientRepository.findById(ingredientRequest.ingredientId())
                             .orElseThrow(() -> new IngredientNotFoundException(
@@ -74,7 +78,7 @@ public class RecipeServiceImpl implements RecipeService {
         recipe.setIngredients(recipeIngredients);
 
         Recipe finalRecipe1 = recipe;
-        List<RecipeStep> recipeSteps = request.steps().stream()
+        List<RecipeStep> recipeSteps = detailsRequest.steps().stream()
                 .map(stepRequest -> {
                     RecipeStep recipeStep = new RecipeStep();
                     recipeStep.setStepNumber(stepRequest.stepNumber());
@@ -85,7 +89,7 @@ public class RecipeServiceImpl implements RecipeService {
                 .collect(Collectors.toList());
 
         recipe.setSteps(recipeSteps);
-
+        recipe.setImageUrl(uploadFile(request.imageUrl()));
         recipe = recipeRepository.save(recipe);
 
         return recipeMapper.toResponse(recipe);
@@ -116,5 +120,10 @@ public class RecipeServiceImpl implements RecipeService {
             throw new RecipeNotFoundException("Recipe Not Found with id : "+id);
         }
         recipeRepository.deleteById(id);
+    }
+
+
+    private String uploadFile(MultipartFile file) {
+        return fileStorageService.storeFile(file);
     }
 }

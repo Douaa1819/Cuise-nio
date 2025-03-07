@@ -18,6 +18,7 @@ public interface RecipeMapper extends BaseMapper<Recipe, RecipeRequest, RecipeRe
     @Mapping(target = "categorie", ignore = true)
     @Mapping(target = "creationDate", ignore = true)
     @Mapping(target = "user", ignore = true)
+    @Mapping(target = "imageUrl",ignore = true)
     Recipe toEntity(RecipeRequest request);
 
     @AfterMapping

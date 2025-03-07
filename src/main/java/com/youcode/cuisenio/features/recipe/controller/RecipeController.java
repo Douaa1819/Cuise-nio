@@ -1,5 +1,6 @@
 package com.youcode.cuisenio.features.recipe.controller;
 
+import com.youcode.cuisenio.features.recipe.dto.recipe.request.RecipeDetailsRequest;
 import com.youcode.cuisenio.features.recipe.dto.recipe.request.RecipeRequest;
 import com.youcode.cuisenio.features.recipe.dto.recipe.response.RecipeResponse;
 import com.youcode.cuisenio.features.recipe.entity.CategoryType;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,14 +27,15 @@ public class RecipeController {
         this.recipeService = recipeService;
     }
 
-    @PostMapping
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<RecipeResponse> createRecipe(
             @AuthenticationPrincipal UserDetails userDetails,
-            @Valid @RequestBody RecipeRequest recipeRequest) {
+            @Valid @ModelAttribute RecipeRequest recipeRequest,
+            @Valid @RequestBody RecipeDetailsRequest detailsRequest) {
 
         String email = userDetails.getUsername();
 
-        RecipeResponse response = recipeService.createRecipe(email, recipeRequest);
+        RecipeResponse response = recipeService.createRecipe(email, recipeRequest, detailsRequest);
 
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }

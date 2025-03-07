@@ -16,6 +16,8 @@ spring:
   sql:
     init:
       continue-on-error: true
+file:
+  uploadDir: ./uploads
  # debug: true
 #logging:
  # level:

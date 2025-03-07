@@ -65,18 +65,18 @@ class CategoryServiceImplTest {
         verify(categoryRepository, times(1)).findAll(pageable);
     }
 //
-//    @Test
-//    void shouldFindCategoryById() {
-//        when(categoryRepository.findById(1L)).thenReturn(Optional.of(category));
-//        when(categoryMapper.toResponse(category)).thenReturn(categoryResponse);
-//
-//        CategoryResponse result = categoryService.findById(1L);
-//
-//        assertNotNull(result);
-//        assertEquals("Desserts", result.name());
-//
-//        verify(categoryRepository, times(1)).findById(1L);
-//    }
+    @Test
+    void shouldFindCategoryById() {
+        when(categoryRepository.findById(1L)).thenReturn(Optional.of(category));
+        when(categoryMapper.toResponse(category)).thenReturn(categoryResponse);
+
+        CategoryResponse result = categoryService.findById(1L);
+
+        assertNotNull(result);
+        assertEquals("Desserts", result.name());
+
+        verify(categoryRepository, times(1)).findById(1L);
+    }
 
     @Test
     void shouldThrowExceptionWhenCategoryNotFound() {

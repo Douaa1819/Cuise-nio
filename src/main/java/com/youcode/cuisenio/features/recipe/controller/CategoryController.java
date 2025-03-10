@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/v1/categories")
+@CrossOrigin("http://localhost:5173")
 public class CategoryController {
     private final CategoryService categoryService;
     public CategoryController(final CategoryService categoryService) {
@@ -18,6 +19,7 @@ public class CategoryController {
 
     @PostMapping
     public ResponseEntity<CategoryResponse> create(@RequestBody final CategoryRequest categoryRequest) {
+
         final CategoryResponse categoryResponse = categoryService.create(categoryRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(categoryResponse);
     }
@@ -42,3 +44,5 @@ public class CategoryController {
 
     }
 }
+
+

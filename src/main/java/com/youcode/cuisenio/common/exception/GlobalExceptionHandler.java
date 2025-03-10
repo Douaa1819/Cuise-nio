@@ -22,7 +22,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(AuthenticationException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public ApiError handleAuthenticationException(AuthenticationException ex) {
-        LOGGER.error("Authentication error: {}", ex.getMessage());
+        LOGGER.error("Authentication error: {}", "AuthenticationException"+ex.getMessage());
         return ApiError.of("AUTH_ERROR", ex.getMessage());
     }
 
@@ -51,7 +51,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ApiError handleAllUncaughtException(Exception ex) {
-        LOGGER.error("Unexpected error: {}", ex.getMessage(), ex);
+        LOGGER.error("Unexpected error: {}", "excep"+ex.getMessage(), ex);
         return ApiError.of("INTERNAL_SERVER_ERROR", "Une erreur interne est survenue");
     }
 

@@ -18,7 +18,12 @@ spring:
       continue-on-error: true
 file:
   uploadDir: ./uploads
- # debug: true
+  #debug: true
 #logging:
- # level:
-   # root: DEBUG
+  #level:
+    #root: DEBUG
+jwt:
+  secret: 0nD6Am6uV7MJnkB6uShOXo2xXkvySAkToMeIM0W8eNw=
+  expiration: 36000000
+
+

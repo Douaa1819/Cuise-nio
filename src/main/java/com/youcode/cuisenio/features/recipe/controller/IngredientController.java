@@ -1,6 +1,7 @@
 package com.youcode.cuisenio.features.recipe.controller;
 
 import com.youcode.cuisenio.features.recipe.dto.ingredient.request.IngredientRequest;
+import com.youcode.cuisenio.features.recipe.dto.ingredient.response.IngredientCountResponse;
 import com.youcode.cuisenio.features.recipe.dto.ingredient.response.IngredientResponse;
 import com.youcode.cuisenio.features.recipe.service.IngredientService;
 import jakarta.validation.Valid;
@@ -12,7 +13,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/v1/ingredients")
+    @RequestMapping("/v1/ingredients")
 public class IngredientController {
 
     private final IngredientService ingredientService;
@@ -48,5 +49,10 @@ public class IngredientController {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         ingredientService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/count")
+    public ResponseEntity<IngredientCountResponse> getCount() {
+        return ResponseEntity.ok(ingredientService.getCount());
     }
 }

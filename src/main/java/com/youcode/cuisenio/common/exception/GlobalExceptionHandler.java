@@ -1,7 +1,9 @@
 package com.youcode.cuisenio.common.exception;
 
 import com.youcode.cuisenio.common.exception.base.ValidationException;
+import com.youcode.cuisenio.features.auth.exception.TokenExpiredException;
 import com.youcode.cuisenio.features.auth.exception.UserAlreadyExistsException;
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import org.slf4j.Logger;
@@ -45,15 +47,7 @@ public class GlobalExceptionHandler {
         return ApiError.of("VALIDATION_ERROR", ex.getMessage(), ex.getErrors());
     }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ApiError handleValidationErrors(MethodArgumentNotValidException ex) {
-        Map<String, String> errors = ex.getBindingResult().getFieldErrors().stream()
-                .collect(Collectors.toMap(FieldError::getField,
-                        error -> error.getDefaultMessage() != null ? error.getDefaultMessage() : "Invalid value"));
 
-        return ApiError.of("VALIDATION_ERROR", "Validation failed", errors);
-    }
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -126,6 +120,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Map<String, String>> handleBadCredentialsException(BadCredentialsException ex) {
         Map<String, String> errors = Map.of("message", "Incorrect password. please try again or click to reset your password");
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errors);
+    }
+
+    @ExceptionHandler(TokenExpiredException.class)
+    public ResponseEntity<Map<String, String>> handleTokenExpiredException(TokenExpiredException ex) {
+        Map<String, String> errors = Map.of("message", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errors);
     }
 }
 

@@ -1,6 +1,7 @@
 package com.youcode.cuisenio.features.recipe.service.impl;
 
 import com.youcode.cuisenio.features.recipe.dto.category.request.CategoryRequest;
+import com.youcode.cuisenio.features.recipe.dto.category.response.CategoryCountResponse;
 import com.youcode.cuisenio.features.recipe.dto.category.response.CategoryResponse;
 import com.youcode.cuisenio.features.recipe.entity.Category;
 import com.youcode.cuisenio.features.recipe.exception.CategoryNotFoundException;
@@ -60,5 +61,11 @@ public class CategoryServiceImpl implements CategoryService {
            throw new CategoryNotFoundException("Category Not Found avec id"+id);
         }
         categoryRepository.deleteById(id);
+    }
+
+
+    public CategoryCountResponse getCount(){
+        Long count = categoryRepository.count();
+        return new CategoryCountResponse(count);
     }
 }

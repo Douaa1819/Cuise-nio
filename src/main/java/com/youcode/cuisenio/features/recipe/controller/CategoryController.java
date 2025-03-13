@@ -1,5 +1,6 @@
 package com.youcode.cuisenio.features.recipe.controller;
 import com.youcode.cuisenio.features.recipe.dto.category.request.CategoryRequest;
+import com.youcode.cuisenio.features.recipe.dto.category.response.CategoryCountResponse;
 import com.youcode.cuisenio.features.recipe.dto.category.response.CategoryResponse;
 import com.youcode.cuisenio.features.recipe.service.CategoryService;
 import org.springframework.data.domain.Page;
@@ -42,6 +43,12 @@ public class CategoryController {
         categoryService.delete(id);
         return ResponseEntity.noContent().build();
 
+    }
+
+
+    @GetMapping("/count")
+    public  ResponseEntity<CategoryCountResponse>getCount(){
+        return ResponseEntity.ok(categoryService.getCount());
     }
 }
 

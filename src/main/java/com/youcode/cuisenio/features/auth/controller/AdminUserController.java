@@ -2,8 +2,10 @@ package com.youcode.cuisenio.features.auth.controller;
 
 
 import com.youcode.cuisenio.features.auth.dto.admin.UserDto;
+import com.youcode.cuisenio.features.auth.dto.admin.response.UserCountResponse;
 import com.youcode.cuisenio.features.auth.mapper.UserMapper;
 import com.youcode.cuisenio.features.auth.service.AdminUserService;
+import com.youcode.cuisenio.features.auth.service.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -17,10 +19,12 @@ public class AdminUserController {
 
     private final AdminUserService adminUserService;
     private final UserMapper userMapper;
+    private final UserService userService;
 
-    public AdminUserController(AdminUserService adminUserService, UserMapper userMapper) {
+    public AdminUserController(AdminUserService adminUserService, UserMapper userMapper, UserService userService) {
         this.adminUserService = adminUserService;
         this.userMapper = userMapper;
+        this.userService = userService;
     }
 
     @GetMapping
@@ -46,5 +50,10 @@ public class AdminUserController {
     public ResponseEntity<Void> deleteUser(@PathVariable Long userId) {
         adminUserService.deleteUser(userId);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/count")
+    public ResponseEntity<UserCountResponse>getcount(){
+        return  ResponseEntity.ok(adminUserService.getCount());
     }
 }

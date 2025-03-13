@@ -26,12 +26,13 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(PUBLIC_ENDPOINTS).permitAll()
                         .requestMatchers("/v1/profile/**").authenticated()
-                        .requestMatchers("/v1/categories/**").authenticated()
+                        .requestMatchers("/v1/categories/**","/v1/meal-plans" ).authenticated()
+                        .requestMatchers("/v1/ingredients/**","/v1/admin/users").authenticated()
                         .requestMatchers("/v1/admin/**").hasAuthority("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // API REST sans session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .cors(Customizer.withDefaults())
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);

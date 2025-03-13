@@ -1,6 +1,7 @@
 package com.youcode.cuisenio.features.recipe.service.impl;
 
 import com.youcode.cuisenio.features.recipe.dto.ingredient.request.IngredientRequest;
+import com.youcode.cuisenio.features.recipe.dto.ingredient.response.IngredientCountResponse;
 import com.youcode.cuisenio.features.recipe.dto.ingredient.response.IngredientResponse;
 import com.youcode.cuisenio.features.recipe.entity.Ingredient;
 import com.youcode.cuisenio.features.recipe.exception.IngredientNotFoundException;
@@ -59,4 +60,11 @@ public class IngredientServiceImpl  implements IngredientService {
         }
         ingredientRepository.deleteById(id);
     }
+
+    public IngredientCountResponse getCount() {
+        long count = ingredientRepository.count();
+        return new IngredientCountResponse(count);
+    }
+
+
 }

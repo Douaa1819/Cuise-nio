@@ -4,5 +4,6 @@ public record RecipeIngredientResponse(
         Long id,
         String ingredientName,
         Double quantity,
+        Long recipeId,
         String unit
 ) {}

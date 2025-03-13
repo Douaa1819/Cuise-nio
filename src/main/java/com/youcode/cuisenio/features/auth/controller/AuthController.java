@@ -33,7 +33,6 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest request) {
-        log.warn("hhhhhhhhhhhhhh"+request.toString());
         return ResponseEntity.ok(authServiceImpl.login(request));
     }
 }

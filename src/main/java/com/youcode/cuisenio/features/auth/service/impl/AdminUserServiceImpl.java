@@ -1,5 +1,6 @@
 package com.youcode.cuisenio.features.auth.service.impl;
 
+import com.youcode.cuisenio.features.auth.dto.admin.response.UserCountResponse;
 import com.youcode.cuisenio.features.auth.entity.User;
 import com.youcode.cuisenio.features.auth.exception.ResourceNotFoundException;
 import com.youcode.cuisenio.features.auth.repository.UserRepository;
@@ -46,5 +47,11 @@ public class AdminUserServiceImpl  implements AdminUserService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("Utilisateur non trouvé"));
         userRepository.delete(user);
+    }
+
+
+    public UserCountResponse getCount(){
+        Long count = userRepository.count();
+        return new UserCountResponse(count);
     }
 }

@@ -1,6 +1,8 @@
 package com.youcode.cuisenio.features.auth.util;
 
+import com.youcode.cuisenio.features.auth.exception.TokenExpiredException;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -49,7 +51,11 @@ public class JwtUtil {
 
 
     private Boolean isTokenExpired(String token) {
-        return extractExpiration(token).before(new Date());
+        try {
+            return extractExpiration(token).before(new Date());
+        } catch (ExpiredJwtException e) {
+            throw new TokenExpiredException();
+        }
     }
 
     public String generateToken(UserDetails userDetails) {

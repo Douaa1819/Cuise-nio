@@ -11,8 +11,5 @@ import org.springframework.stereotype.Service;
 @Transactional
 public interface RecipeService extends CrudService<Long, RecipeRequest, RecipeResponse> {
      RecipeResponse createRecipe(String email, RecipeRequest request, RecipeDetailsRequest detailsRequest);
-
-    interface RecipeRating  {
-    }
 }
 

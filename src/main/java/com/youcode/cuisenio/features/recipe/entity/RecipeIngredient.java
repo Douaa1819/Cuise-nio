@@ -70,10 +70,11 @@ public class RecipeIngredient {
         this.recipe = recipe;
     }
 
-    public RecipeIngredient(Long id,  Double quantity, String unit, Recipe recipe) {
+    public RecipeIngredient(Long id, String unit, Double quantity, Recipe recipe, Ingredient ingredient) {
         this.id = id;
-        this.quantity = quantity;
         this.unit = unit;
+        this.quantity = quantity;
         this.recipe = recipe;
+        this.ingredient = ingredient;
     }
 }

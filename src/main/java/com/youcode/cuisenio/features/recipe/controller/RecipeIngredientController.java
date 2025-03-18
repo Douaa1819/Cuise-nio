@@ -1,6 +1,6 @@
 package com.youcode.cuisenio.features.recipe.controller;
 
-import com.youcode.cuisenio.features.recipe.dto.ingredient.response.request.RecipeIngredientRequest;
+import com.youcode.cuisenio.features.recipe.dto.recipeIngredient.request.RecipeIngredientRequest;
 import com.youcode.cuisenio.features.recipe.dto.recipeIngredient.response.RecipeIngredientResponse;
 import com.youcode.cuisenio.features.recipe.service.RecipeIngredientService;
 import jakarta.validation.Valid;

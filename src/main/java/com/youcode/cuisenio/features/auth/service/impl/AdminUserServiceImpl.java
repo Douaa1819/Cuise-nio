@@ -26,6 +26,7 @@ public class AdminUserServiceImpl  implements AdminUserService {
 
 
 
+
     @Override
     public void blockUser(Long userId) {
         User user = userRepository.findById(userId)
@@ -41,7 +42,6 @@ public class AdminUserServiceImpl  implements AdminUserService {
         user.setBlocked(false);
         userRepository.save(user);
     }
-
     @Override
     public void deleteUser(Long userId) {
         User user = userRepository.findById(userId)

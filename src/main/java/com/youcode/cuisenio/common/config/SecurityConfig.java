@@ -25,9 +25,10 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(PUBLIC_ENDPOINTS).permitAll()
+                            .requestMatchers("/uploads/**").permitAll()
                         .requestMatchers("/v1/profile/**").authenticated()
-                        .requestMatchers("/v1/categories/**","/v1/meal-plans" ).authenticated()
-                        .requestMatchers("/v1/ingredients/**","/v1/admin/users").authenticated()
+                        .requestMatchers("/v1/categories/**","/v1/meal-plans/**","/api/recipes/**" ).authenticated()
+                        .requestMatchers("/v1/ingredients/**").authenticated()
                         .requestMatchers("/v1/admin/**").hasAuthority("ADMIN")
                         .anyRequest().authenticated()
                 )
@@ -43,7 +44,6 @@ public class SecurityConfig {
     private static final String[] PUBLIC_ENDPOINTS = {
             "/v1/auth/register",
             "/v1/auth/login",
-            "/v1/ingredients/**",
 
     };
 }

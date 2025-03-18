@@ -1,12 +1,12 @@
 package com.youcode.cuisenio.features.recipe.controller;
 
-import com.youcode.cuisenio.features.recipe.dto.recipe.request.RecipeDetailsRequest;
+import com.youcode.cuisenio.features.recipe.dto.recipe.request.AddRecipeImage;
 import com.youcode.cuisenio.features.recipe.dto.recipe.request.RecipeRequest;
 import com.youcode.cuisenio.features.recipe.dto.recipe.response.RecipeResponse;
-import com.youcode.cuisenio.features.recipe.entity.CategoryType;
 import com.youcode.cuisenio.features.recipe.entity.DifficultyLevel;
 import com.youcode.cuisenio.features.recipe.service.RecipeService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -19,77 +19,81 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/recipes")
+@RequiredArgsConstructor
 public class RecipeController {
 
     private final RecipeService recipeService;
 
-    public RecipeController(RecipeService recipeService) {
-        this.recipeService = recipeService;
-    }
-
-    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping
     public ResponseEntity<RecipeResponse> createRecipe(
             @AuthenticationPrincipal UserDetails userDetails,
-            @Valid @ModelAttribute RecipeRequest recipeRequest,
-            @Valid @RequestBody RecipeDetailsRequest detailsRequest) {
-
+            @Valid @RequestBody RecipeRequest request
+    ) {
         String email = userDetails.getUsername();
-
-        RecipeResponse response = recipeService.createRecipe(email, recipeRequest, detailsRequest);
-
+        RecipeResponse response = recipeService.createRecipe(email, request);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+
+    @PostMapping(value = "/add-image/{recipeId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<RecipeResponse> addImage(
+            @PathVariable Long recipeId,
+            @Valid @ModelAttribute AddRecipeImage recipeImage
+    ) {
+        return ResponseEntity.ok(recipeService.addImage(recipeId, recipeImage));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<RecipeResponse> getRecipeById(@PathVariable Long id) {
-        RecipeResponse response = recipeService.findById(id);
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(recipeService.findById(id));
     }
 
     @GetMapping
     public ResponseEntity<Page<RecipeResponse>> getAllRecipes(
-            @PageableDefault(size = 10, sort = "creationDate") Pageable pageable) {
-        Page<RecipeResponse> response = recipeService.findAll(pageable);
-        return ResponseEntity.ok(response);
+            @PageableDefault(size = 10, sort = "creationDate") Pageable pageable
+    ) {
+        return ResponseEntity.ok(recipeService.findAll(pageable));
     }
 
     @GetMapping("/search")
     public ResponseEntity<Page<RecipeResponse>> searchRecipes(
             @RequestParam(required = false) String query,
-            @RequestParam(required = false) DifficultyLevel difficultyLevel,
+            @RequestParam(required = false) Long categoryId,
+            @RequestParam(required = false) DifficultyLevel difficulty,
             @RequestParam(required = false) Integer maxPrepTime,
             @RequestParam(required = false) Integer maxCookTime,
-            @RequestParam(required = false) CategoryType categoryType,
-            @RequestParam(required = false) Boolean isApproved,
-            @PageableDefault(size = 10, sort = "creationDate") Pageable pageable) {
-
-//        Page<RecipeResponse> response = recipeService.searchRecipes(
-//                query, difficultyLevel, maxPrepTime, maxCookTime, categoryType, isApproved, pageable);
-//        return ResponseEntity.ok(response);
-        return null;
-    }
-
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<Page<RecipeResponse>> getRecipesByUserId(
-            @PathVariable Long userId,
-            @PageableDefault(size = 10, sort = "creationDate") Pageable pageable) {
-       // Page<RecipeResponse> response = recipeService.getRecipesByUserId(userId, pageable);
-
-       // return ResponseEntity.ok(response);
-        return null;
+            @PageableDefault(size = 10, sort = "creationDate") Pageable pageable
+    ) {
+        return ResponseEntity.ok(recipeService.searchRecipes(
+                query, categoryId, difficulty, maxPrepTime, maxCookTime, pageable
+        ));
     }
 
     @GetMapping("/my-recipes")
     public ResponseEntity<Page<RecipeResponse>> getMyRecipes(
             @AuthenticationPrincipal UserDetails userDetails,
-            @PageableDefault(size = 10, sort = "creationDate") Pageable pageable) {
-        //Long userId = extractUserId(userDetails);
-        //Page<RecipeResponse> response = recipeService.getRecipesByUserId(userId, pageable);
-      //  return ResponseEntity.ok(response);
-        return null;
+            @PageableDefault(size = 10, sort = "creationDate") Pageable pageable
+    ) {
+        String email = userDetails.getUsername();
+        return ResponseEntity.ok(recipeService.getRecipesByUser(email, pageable));
     }
 
-//    @PutMapping("/{id}")
-//    public ResponseEntity<RecipeDetailResponse>
+    @PutMapping("/{id}")
+    public ResponseEntity<RecipeResponse> updateRecipe(
+            @PathVariable Long id,
+            @AuthenticationPrincipal UserDetails userDetails,
+            @Valid @RequestBody RecipeRequest request
+    ) {
+        String email = userDetails.getUsername();
+        return ResponseEntity.ok(recipeService.updateRecipe(id, email, request));
+    }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteRecipe(
+            @PathVariable Long id,
+            @AuthenticationPrincipal UserDetails userDetails
+    ) {
+        String email = userDetails.getUsername();
+        recipeService.deleteRecipe(id, email);
+        return ResponseEntity.noContent().build();
+    }
 }

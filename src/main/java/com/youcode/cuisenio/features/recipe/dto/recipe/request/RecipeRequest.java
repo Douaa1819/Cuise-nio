@@ -1,5 +1,7 @@
 package com.youcode.cuisenio.features.recipe.dto.recipe.request;
 
+import com.youcode.cuisenio.features.recipe.dto.recipeIngredient.request.RecipeIngredientRequest;
+import com.youcode.cuisenio.features.recipe.dto.recipeStep.request.RecipeStepRequest;
 import com.youcode.cuisenio.features.recipe.entity.DifficultyLevel;
 import jakarta.validation.constraints.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,8 +28,12 @@ public record RecipeRequest (
         @Min(value = 1, message = "Number of servings must be at least 1")
          Integer servings,
 
-         MultipartFile imageUrl,
+         @NotNull(message = "category must not be null")
+         Long categoryIds,
 
-         List<Long> categoryIds
+        @NotNull(message = "ingredients must not be null")
+        List<RecipeIngredientRequest> ingredients,
+        @NotNull(message = "steps must not be null")
+        List<RecipeStepRequest> steps
 
 ){}

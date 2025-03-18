@@ -1,6 +1,6 @@
 package com.youcode.cuisenio.features.recipe.service.impl;
 
-import com.youcode.cuisenio.features.recipe.dto.ingredient.response.request.RecipeIngredientRequest;
+import com.youcode.cuisenio.features.recipe.dto.recipeIngredient.request.RecipeIngredientRequest;
 import com.youcode.cuisenio.features.recipe.dto.recipeIngredient.response.RecipeIngredientResponse;
 import com.youcode.cuisenio.features.recipe.entity.Ingredient;
 import com.youcode.cuisenio.features.recipe.entity.Recipe;

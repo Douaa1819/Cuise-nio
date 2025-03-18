@@ -20,15 +20,4 @@ public interface RecipeMapper extends BaseMapper<Recipe, RecipeRequest, RecipeRe
     @Mapping(target = "user", ignore = true)
     @Mapping(target = "imageUrl",ignore = true)
     Recipe toEntity(RecipeRequest request);
-
-    @AfterMapping
-    default void mapCategory(RecipeRequest request, @MappingTarget Recipe recipe) {
-        if (request.categoryIds() != null && !request.categoryIds().isEmpty()) {
-            Category category = new Category();
-            category.setId(request.categoryIds().get(0)); // Associer l'ID de la catégorie
-            recipe.setCategorie(category);
-        } else {
-            throw new IllegalArgumentException("Category ID is required");
-        }
-    }
 }

@@ -32,6 +32,10 @@ public class FileStorageService {
     }
 
     public String storeFile(MultipartFile file) {
+        if (file == null || file.isEmpty()) {
+            return null; // Return null if no file is provided
+        }
+
         String originalFileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
 
         // Check for invalid characters
@@ -56,7 +60,6 @@ public class FileStorageService {
             // Copy the file to the target location (overwrite if exists)
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
 
-            // Return the unique filename
             return uniqueFileName;
         } catch (IOException ex) {
             throw new FileStorageException("Could not store file " + uniqueFileName, ex);

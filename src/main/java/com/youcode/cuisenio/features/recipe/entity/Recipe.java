@@ -228,4 +228,7 @@ public class Recipe {
         this.title = title;
         this.id = id;
     }
+
+
+
 }

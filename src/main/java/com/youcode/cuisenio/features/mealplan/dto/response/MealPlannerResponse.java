@@ -14,5 +14,7 @@ public record MealPlannerResponse(
         DayOfWeek dayOfWeek,
         MealType mealType,
         Integer servings,
-        String notes
+        String notes,
+        RecipeResponse recipe
 ) {}
+

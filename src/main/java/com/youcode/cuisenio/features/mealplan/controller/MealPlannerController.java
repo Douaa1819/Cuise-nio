@@ -23,7 +23,7 @@ public class MealPlannerController {
 
     @PostMapping("/{recipeId}")
     public ResponseEntity<MealPlannerResponse> createMealPlan(
-            @PathVariable Long recipeId, // Récupérer recipeId depuis l'URL
+            @PathVariable Long recipeId,
             @Valid @RequestBody MealPlannerRequest request,
             @AuthenticationPrincipal UserDetails userDetails) {
 
@@ -53,8 +53,14 @@ public class MealPlannerController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteMealPlan(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteMealPlan(
+            @PathVariable Long id,
+            @AuthenticationPrincipal UserDetails userDetails) {
+
+        String email = userDetails.getUsername();
         mealPlannerService.deleteMealPlan(id);
+
         return ResponseEntity.noContent().build();
     }
 }
+

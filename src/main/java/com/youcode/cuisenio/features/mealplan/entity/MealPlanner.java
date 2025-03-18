@@ -39,18 +39,18 @@ public class MealPlanner {
     @Column
     private String notes;
 
-
-    public MealPlanner(Long id, User user, Recipe recipe, LocalDate planningDate, DayOfWeek dayOfWeek, MealType mealType, Integer servings, String notes, List<Recipe> recipes) {
-        this.id = id;
-        this.user = user;
-        this.recipe = recipe;
-        this.planningDate = planningDate;
-        this.dayOfWeek = dayOfWeek;
-        this.mealType = mealType;
-        this.servings = servings;
-        this.notes = notes;
+    public MealPlanner(List<Recipe> recipes, String notes, Integer servings, MealType mealType, DayOfWeek dayOfWeek, LocalDate planningDate, Recipe recipe, User user, Long id) {
         this.recipes = recipes;
+        this.notes = notes;
+        this.servings = servings;
+        this.mealType = mealType;
+        this.dayOfWeek = dayOfWeek;
+        this.planningDate = planningDate;
+        this.recipe = recipe;
+        this.user = user;
+        this.id = id;
     }
+
 
     public Recipe getRecipe() {
         return recipe;

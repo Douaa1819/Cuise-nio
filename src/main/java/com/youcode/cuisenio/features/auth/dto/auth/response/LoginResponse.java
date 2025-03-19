@@ -1,6 +1,12 @@
 package com.youcode.cuisenio.features.auth.dto.auth.response;
 
 
-    public record LoginResponse(
-            String token
-    ) {}
+import com.youcode.cuisenio.features.auth.entity.Role;
+
+public record LoginResponse(
+            String token,
+            Long userId,
+            String email,
+            String username,
+            Role role
+) {}

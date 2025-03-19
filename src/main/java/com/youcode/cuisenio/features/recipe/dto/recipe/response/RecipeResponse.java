@@ -19,7 +19,7 @@ public record RecipeResponse(
         String description,
         int cookingTime,
         String imageUrl,
-        List<RecipeIngredientResponse> recipeIngredients,
+            List<RecipeIngredientResponse> recipeIngredients,
         Date creationDate,
         Integer preparationTime,
         DifficultyLevel difficultyLevel,

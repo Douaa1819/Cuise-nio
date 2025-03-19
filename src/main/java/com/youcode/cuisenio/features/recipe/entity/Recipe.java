@@ -47,7 +47,7 @@ public class Recipe {
     private User user;
 
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<RecipeIngredient> ingredients;
+    private List<RecipeIngredient> recipeIngredients;
 
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RecipeStep> steps;
@@ -122,13 +122,6 @@ public class Recipe {
         this.steps = steps;
     }
 
-    public List<RecipeIngredient> getIngredients() {
-        return ingredients;
-    }
-
-    public void setIngredients(List<RecipeIngredient> ingredients) {
-        this.ingredients = ingredients;
-    }
 
     public User getUser() {
         return user;
@@ -202,6 +195,14 @@ public class Recipe {
         this.title = title;
     }
 
+    public List<RecipeIngredient> getRecipeIngredients() {
+        return recipeIngredients;
+    }
+
+    public void setRecipeIngredients(List<RecipeIngredient> recipeIngredients) {
+        this.recipeIngredients = recipeIngredients;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -214,7 +215,7 @@ public class Recipe {
         this.steps = steps;
         this.ratings = ratings;
         this.comments = comments;
-        this.ingredients = ingredients;
+        this.recipeIngredients = ingredients;
         this.categorie=category;
         this.user = user;
         this.isApproved = isApproved;

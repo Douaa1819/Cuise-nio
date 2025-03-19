@@ -113,7 +113,7 @@ public class RecipeServiceImpl implements RecipeService {
 
 
         recipe.setSteps(recipeSteps);
-        recipe.setIngredients(recipeIngredients);
+        recipe.setRecipeIngredients(recipeIngredients);
 
         return recipeMapper.toResponse(recipe);
     }
@@ -198,7 +198,7 @@ public class RecipeServiceImpl implements RecipeService {
                     return recipeIngredient;
                 })
                 .collect(Collectors.toList());
-        recipe.setIngredients(newIngredients);
+        recipe.setRecipeIngredients(newIngredients);
 
         recipeStepRepository.deleteByRecipe(recipe);
         List<RecipeStep> newSteps = request.steps().stream()

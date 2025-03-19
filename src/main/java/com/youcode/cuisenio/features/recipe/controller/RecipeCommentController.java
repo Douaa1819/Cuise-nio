@@ -2,6 +2,7 @@ package com.youcode.cuisenio.features.recipe.controller;
 
 import com.youcode.cuisenio.features.recipe.dto.comment.request.RecipeCommentRequest;
 import com.youcode.cuisenio.features.recipe.dto.comment.response.RecipeCommentResponse;
+import com.youcode.cuisenio.features.recipe.service.RecipeCommentService;
 import com.youcode.cuisenio.features.recipe.service.impl.RecipeCommentServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;

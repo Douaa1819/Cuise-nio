@@ -3,12 +3,17 @@ package com.youcode.cuisenio.features.mealplan.entity;
 import com.youcode.cuisenio.features.auth.entity.User;
 import com.youcode.cuisenio.features.recipe.entity.Recipe;
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 @Entity
 @Table(name = "meal_plans")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class MealPlanner {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,51 +44,6 @@ public class MealPlanner {
     @Column
     private String notes;
 
-    public MealPlanner(List<Recipe> recipes, String notes, Integer servings, MealType mealType, DayOfWeek dayOfWeek, LocalDate planningDate, Recipe recipe, User user, Long id) {
-        this.recipes = recipes;
-        this.notes = notes;
-        this.servings = servings;
-        this.mealType = mealType;
-        this.dayOfWeek = dayOfWeek;
-        this.planningDate = planningDate;
-        this.recipe = recipe;
-        this.user = user;
-        this.id = id;
-    }
-
-
-    public Recipe getRecipe() {
-        return recipe;
-    }
-
-    public void setRecipe(Recipe recipe) {
-        this.recipe = recipe;
-    }
-
-    public LocalDate getPlanningDate() {
-        return planningDate;
-    }
-
-    public void setPlanningDate(LocalDate planningDate) {
-        this.planningDate = planningDate;
-    }
-
-    public Integer getServings() {
-        return servings;
-    }
-
-    public void setServings(Integer servings) {
-        this.servings = servings;
-    }
-
-    public String getNotes() {
-        return notes;
-    }
-
-    public void setNotes(String notes) {
-        this.notes = notes;
-    }
-
     @ManyToMany
     @JoinTable(
             name = "mealplan_recipes",
@@ -91,48 +51,8 @@ public class MealPlanner {
             inverseJoinColumns = @JoinColumn(name = "recipe_id")
     )
     private List<Recipe> recipes = new ArrayList<>();
-
-    public MealPlanner() {}
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-
-
-    public MealType getMealType() {
-        return mealType;
-    }
-
-    public void setMealType(MealType mealType) {
-        this.mealType = mealType;
-    }
-
-    public DayOfWeek getDayOfWeek() {
-        return dayOfWeek;
-    }
-
-    public void setDayOfWeek (DayOfWeek dayOfWeek) {
-        this.dayOfWeek = dayOfWeek;
-    }
-
-    public List<Recipe> getRecipes() {
-        return recipes;
-    }
-
-    public void setRecipes(List<Recipe> recipes) {
-        this.recipes = recipes;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 }
+
+
+
+
